@@ -3,13 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
+import { mongoCreds } from './config/mongo';
 @Module({
-  imports: [
-    MongooseModule.forRoot(
-      `MONGOURI`,
-    ),
-    UserModule,
-  ],
+  imports: [MongooseModule.forRoot(mongoCreds.SECRET_KEY), UserModule],
   controllers: [AppController],
   providers: [AppService],
 })
