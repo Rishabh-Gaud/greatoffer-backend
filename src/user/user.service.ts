@@ -20,7 +20,7 @@ export class UserService {
 
   async createUser(email: string, password: string): Promise<User> {
     try {
-      const emailValidation = await validate('rishabh.kumbh@gmail.com');
+      const emailValidation = await validate('rishabh.kubh@gmail.com');
       console.log(emailValidation);
 
       const existingUser = await this.userModel.findOne({ email });
@@ -34,7 +34,6 @@ export class UserService {
         email,
         password: hashedPassword,
         verificationCode,
-        first_name: 'dummy',
       });
       console.log('user >>>>>>>>>>>>>> ', user);
       await user.save();
