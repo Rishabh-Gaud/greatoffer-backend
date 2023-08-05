@@ -23,6 +23,12 @@ export class User extends Document {
 
   @Prop({ required: false, minlength: 6 })
   pincode: number;
+
+  @Prop({ default: false })
+  isVerified: boolean;
+
+  @Prop()
+  verificationCode: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
