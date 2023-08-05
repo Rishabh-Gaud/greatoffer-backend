@@ -7,10 +7,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { validate } from 'deep-email-validator';
 import * as bcrypt from 'bcryptjs';
 import * as randomstring from 'randomstring';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private emailService: EmailService,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     // const { first_name, email, password } = createUserDto;
@@ -24,12 +28,13 @@ export class UserService {
       console.log(emailValidation);
 
       const existingUser = await this.userModel.findOne({ email });
-      if (existingUser) {
-        throw new Error('Email already exists.');
-      }
+      // if (existingUser) {
+      //   throw new Error('Email already exists.');
+      // }
 
       const hashedPassword = await bcrypt.hash(password, 10);
       const verificationCode = randomstring.generate(6);
+      await this.emailService.sendEmail(email, 'Verify Your Email');
       const user = new this.userModel({
         email,
         password: hashedPassword,
@@ -37,11 +42,6 @@ export class UserService {
       });
       console.log('user >>>>>>>>>>>>>> ', user);
       await user.save();
-      // await this.emailService.sendEmail(
-      //   email,
-      //   'Verify Your Email',
-      //   `Your OTP: ${verificationCode}`,
-      // );
       return user;
     } catch (error) {
       console.log('error from user service >>>>>>>', error);

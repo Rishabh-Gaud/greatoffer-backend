@@ -3,8 +3,11 @@ import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './entities/user.entity';
+import { EmailService } from 'src/email/email.service';
+import { EmailModule } from 'src/email/email.module';
 @Module({
   imports: [
+    EmailModule,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   controllers: [UserController],
