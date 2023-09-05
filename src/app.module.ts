@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 @Module({
-  imports: [MongooseModule.forRoot(process.env.SECRET_KEY), UserModule],
+  imports: [MongooseModule.forRoot(process.env.SECRET_KEY || `mongodb+srv://thegreatoffer:omqk7uFocpZQkhst@cluster0.6vhl28n.mongodb.net/`), UserModule],
   controllers: [AppController],
   providers: [AppService],
 })
